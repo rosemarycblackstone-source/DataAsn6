@@ -1,0 +1,9 @@
+**Design Memo: Company Directory Tree**
+
+For this assignment, I implemented a company directory using a custom binary tree. Each employee is represented by an `EmployeeNode` object, which stores the employee's name and two pointers, `left` and `right`. The `TeamTree` class manages the overall structure, with the root representing the team lead.
+
+Recursive insertion allowed the program to search through the tree to find the manager specified by the user. If the current node matched the manager's name, the program checked whether the requested left or right position was available. If it was, a new employee node was created and connected to the manager. If the current node did not match, the search continued through the existing branches. This allowed employees to be added at different levels of the organization.
+
+One challenge was ensuring that the program searched the correct branches without replacing existing employees or incorrectly reporting that a manager could not be found. I also had to make sure that empty pointers were handled properly. An empty pointer indicates that no employee occupies that position, while a pointer containing a node means that the position is already taken. Testing the program through the command-line interface helped me confirm that insertion and printing worked as expected.
+
+Trees are useful in real-world systems when data has a hierarchical relationship. Examples include company reporting structures, computer file systems, website document structures, and organizational charts. Compared with a simple list, a tree makes parent-child relationships explicit and can support efficient searching and traversal when designed appropriately.

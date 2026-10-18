@@ -8,7 +8,10 @@ class EmployeeNode:
     '''
 
     # Delete this line and implement the class below
-    pass
+    def __init__(self,name):
+        self.name = name
+        self.left = None 
+        self.right = None
 
 class TeamTree:
     '''
@@ -22,15 +25,102 @@ class TeamTree:
     '''
     
     # Delete this line and implement the class below
-    pass
+    def __init__(self):
+        self.root = None
+
+    def insert(self, manager_name, employee_name, side, current_node=None):
+        if self.root is None:
+            print("Error: Add a team lead before adding employees.")
+            return
+
+        if side not in ("left", "right"):
+            print("Error: Side must be 'left' or 'right'.")
+            return
+
+        if current_node is None:
+            current_node = self.root
+
+        if current_node.name == manager_name:
+            if side == "left":
+                if current_node.left is None:
+                    current_node.left = EmployeeNode(employee_name)
+                    print(f"{employee_name} added to the LEFT of {manager_name}.")
+                else:
+                    print(f"Error: {manager_name} already has a left employee.")
+            else:
+                if current_node.right is None:
+                    current_node.right = EmployeeNode(employee_name)
+                    print(f"{employee_name} added to the RIGHT of {manager_name}.")
+                else:
+                    print(f"Error: {manager_name} already has a right employee.")
+            return
+
+        left_found = False
+        right_found = False
+
+        if current_node.left is not None:
+            left_found = self._insert_search(
+                manager_name, employee_name, side, current_node.left
+            )
+
+        if current_node.right is not None:
+            right_found = self._insert_search(
+                manager_name, employee_name, side, current_node.right
+            )
+
+        if not left_found and not right_found:
+            print(f"Error: Manager '{manager_name}' was not found.")
+
+    def _insert_search(self, manager_name, employee_name, side, current_node):
+        if current_node.name == manager_name:
+            if side == "left":
+                if current_node.left is None:
+                    current_node.left = EmployeeNode(employee_name)
+                    print(f"{employee_name} added to the LEFT of {manager_name}.")
+                else:
+                    print(f"Error: {manager_name} already has a left employee.")
+            else:
+                if current_node.right is None:
+                    current_node.right = EmployeeNode(employee_name)
+                    print(f"{employee_name} added to the RIGHT of {manager_name}.")
+                else:
+                    print(f"Error: {manager_name} already has a right employee.")
+            return True
+
+        found = False
+
+        if current_node.left is not None:
+            if self._insert_search(
+                manager_name, employee_name, side, current_node.left
+            ):
+                found = True
+
+        if current_node.right is not None:
+            if self._insert_search(
+                manager_name, employee_name, side, current_node.right
+            ):
+                found = True
+
+        return found
+    
+    def print_tree(self, node=None, level=0):
+        if node is None:
+            if level == 0:
+                node = self.root
+            else:
+                return
+
+        if node is None:
+            print("The company directory is empty.")
+            return
+
+        indent = "    " * level
+        print(f"{indent}- {node.name}")
+
+        self.print_tree(node.left, level + 1)
+        self.print_tree(node.right, level + 1)
 
 # Test your code here
-
-
-
-
-
-
 
 
 
@@ -70,3 +160,5 @@ def company_directory():
             break
         else:
             print("❌ Invalid option. Try again.")
+if __name__ == "__main__":
+    company_directory()
